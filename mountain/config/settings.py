@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     #adds
     ####
 
-    'pass',
+    'pass_app',
     'rest_framework',
     'django_filters',
 ]

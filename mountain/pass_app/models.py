@@ -6,8 +6,6 @@ from func_path import get_image_path
 from resources import LEVELS, STATUS
 
 
-
-
 # модель пользователя
 class User(models.Model):
     email = models.EmailField(max_length=64, unique=True)
@@ -35,6 +33,7 @@ class Coords(models.Model):
     class Meta:
         verbose_name = 'Координаты'
         verbose_name_plural = 'Координаты'
+
 
 class Level(models.Model):
     winter = models.CharField(verbose_name='Зима', choices=LEVELS, max_length=6, default='')
@@ -66,10 +65,12 @@ class MountainPass(models.Model):
 
 
 class Image(models.Model):
-    mountain_pass = models.ForeignKey(MountainPass, on_delete=models.CASCADE, related_name='images', null=True, blank=True)
+    mountain_pass = models.ForeignKey(MountainPass, on_delete=models.CASCADE,
+                                      related_name='images', null=True, blank=True)
     image = models.ImageField(upload_to=get_image_path, verbose_name='Изображение', null=True, blank=True)
     title = models.CharField(verbose_name='Название', max_length=255, null=True, blank=True)
     add_time = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return f'{self.pk}: {self.title} {self.image}'
+
