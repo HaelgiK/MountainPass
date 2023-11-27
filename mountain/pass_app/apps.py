@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PassConfig(AppConfig):
+class PassAppConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'pass'
+    name = 'pass_app'
