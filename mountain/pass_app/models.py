@@ -36,10 +36,10 @@ class Coords(models.Model):
 
 
 class Level(models.Model):
-    winter = models.CharField(verbose_name='Зима', choices=LEVELS, max_length=6, default='')
-    summer = models.CharField(verbose_name='Лето', choices=LEVELS, max_length=6, default='')
-    autumn = models.CharField(verbose_name='Осень', choices=LEVELS, max_length=6, default='')
-    spring = models.CharField(verbose_name='Весна', choices=LEVELS, max_length=6, default='')
+    winter = models.CharField(verbose_name='Зима', choices=LEVELS, max_length=6, null=True, blank=True)
+    summer = models.CharField(verbose_name='Лето', choices=LEVELS, max_length=6, null=True, blank=True)
+    autumn = models.CharField(verbose_name='Осень', choices=LEVELS, max_length=6, null=True, blank=True)
+    spring = models.CharField(verbose_name='Весна', choices=LEVELS, max_length=6, null=True, blank=True)
 
     def __str__(self):
         return f"зима: {self.winter}, весна: {self.spring}, лето: {self.summer}, осень: {self.autumn}"
