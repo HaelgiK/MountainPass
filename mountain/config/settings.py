@@ -96,7 +96,16 @@ DATABASES = {
     }
 }
 
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'MountainPass',
+#         'USER': os.getenv('FSTR_DB_LOGIN'),
+#         'PASSWORD': os.getenv('FSTR_DB_PASS'),
+#         'HOST': os.getenv('FSTR_DB_HOST'),
+#         'PORT': os.getenv('FSTR_DB_PORT'),
+#     }
+# }
 
 
 # Password validation
