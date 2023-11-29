@@ -85,6 +85,13 @@ class MountainPassViewSet(viewsets.ModelViewSet):
                         'message': 'Изменения отклонены, т.к. запись уже находится на модерации'
                     }
                 )
+        else:
+            return Response(
+                {
+                    'state': '0',
+                    'message': f'Текущий статус: {mountain_pass.get_status_display()}, изменить запись нельзя!'
+                }
+            )
 
 
 # Список данных обо всех объектах, которые пользователь с почтой <email> отправил на сервер.

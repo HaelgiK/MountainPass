@@ -22,13 +22,14 @@ class UserSerializer(serializers.ModelSerializer):
         if user.exists():
             return user.first()
         else:
-            return User.objects.create(
+            new_user = User.objects.create(
                 email=self.validated_data.get('email'),
                 phone=self.validated_data.get('phone'),
                 fam=self.validated_data.get('fam'),
                 name=self.validated_data.get('name'),
                 otc=self.validated_data.get('otc'),
             )
+            return new_user
 
 
 class CoordsSerializer(serializers.ModelSerializer):
@@ -107,4 +108,4 @@ class MountainPassSerializer(WritableNestedModelSerializer):
                         'ФИО, email и номер телефона пользователя не могут быть изменены'
                     }
                 )
-            return data
+        return data
