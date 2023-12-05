@@ -1,2 +1,4 @@
 django
 djangorestframework
+django_filters
+drf_spectacular
