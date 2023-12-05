@@ -22,13 +22,14 @@ class UserSerializer(serializers.ModelSerializer):
         if user.exists():
             return user.first()
         else:
-            return User.objects.create(
+            new_user = User.objects.create(
                 email=self.validated_data.get('email'),
                 phone=self.validated_data.get('phone'),
                 fam=self.validated_data.get('fam'),
                 name=self.validated_data.get('name'),
                 otc=self.validated_data.get('otc'),
             )
+            return new_user
 
 
 class CoordsSerializer(serializers.ModelSerializer):
@@ -47,11 +48,12 @@ class LevelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Level
-        fields = ['winter',
-                  'summer',
-                  'autumn',
-                  'spring'
-                  ]
+        fields = [
+            'winter',
+            'summer',
+            'autumn',
+            'spring'
+        ]
         verbose_name = 'Уровень сложности'
 
 
@@ -88,3 +90,23 @@ class MountainPassSerializer(WritableNestedModelSerializer):
             'level',
             'images',
         ]
+
+    # Реализация запрета изменять данные пользователя при редактировании данных о перевале
+    def validate(self, data):
+        if self.instance is not None:
+            instance_user = self.instance.user
+            data_user = data.get('user')
+            validating_user_fields = [
+                instance_user.fam != data_user['fam'],
+                instance_user.name != data_user['name'],
+                instance_user.otc != data_user['otc'],
+                instance_user.phone != data_user['phone'],
+                instance_user.email != data_user['email'],
+            ]
+            if data_user is not None and any(validating_user_fields):
+                raise serializers.ValidationError(
+                    {
+                        'ФИО, email и номер телефона пользователя не могут быть изменены'
+                    }
+                )
+        return data
