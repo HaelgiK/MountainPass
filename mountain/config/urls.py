@@ -15,7 +15,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('submitData/', include(router.urls)),
     path('api/submitData/user__email=<str:email>', EmailAPIView.as_view()),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+#    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),

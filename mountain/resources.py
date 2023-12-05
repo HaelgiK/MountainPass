@@ -15,8 +15,8 @@ accepted = 'AC'
 rejected = 'RJ'
 
 STATUS = [
-        ("new", "новый"),
-        ("pending", "на модерации"),
-        ("accepted", "принят"),
-        ("rejected", "не принят"),
+        (new, "новый"),
+        (pending, "на модерации"),
+        (accepted, "принят"),
+        (rejected, "не принят"),
     ]

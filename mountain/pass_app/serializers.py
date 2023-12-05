@@ -48,11 +48,12 @@ class LevelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Level
-        fields = ['winter',
-                  'summer',
-                  'autumn',
-                  'spring'
-                  ]
+        fields = [
+            'winter',
+            'summer',
+            'autumn',
+            'spring'
+        ]
         verbose_name = 'Уровень сложности'
 
 

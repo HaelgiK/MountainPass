@@ -8,7 +8,7 @@ from resources import LEVELS, STATUS
 
 # модель пользователя
 class User(models.Model):
-    email = models.EmailField(max_length=64, unique=True)
+    email = models.EmailField(max_length=64)
     phone = models.CharField( max_length=12, verbose_name='Телефон')
     fam = models.CharField(max_length=64, verbose_name='Фамилия')
     name = models.CharField(max_length=64, verbose_name='Имя')

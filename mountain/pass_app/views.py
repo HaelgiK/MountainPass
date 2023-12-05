@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+import django_filters.rest_framework
 from rest_framework import viewsets, generics, status
 from rest_framework.response import Response
 
@@ -30,6 +31,8 @@ class ImageViewSet(viewsets.ModelViewSet):
 class MountainPassViewSet(viewsets.ModelViewSet):
     queryset = MountainPass.objects.all()
     serializer_class = MountainPassSerializer
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = ('user__email',)
 
     # Создаем перевал
     def create(self, request, *args, **kwargs):
@@ -82,7 +85,7 @@ class MountainPassViewSet(viewsets.ModelViewSet):
                 return Response(
                     {
                         'state': '0',
-                        'message': 'Изменения отклонены, т.к. запись уже находится на модерации'
+                        'message': serializer.errors
                     }
                 )
         else:
@@ -97,6 +100,7 @@ class MountainPassViewSet(viewsets.ModelViewSet):
 # Список данных обо всех объектах, которые пользователь с почтой <email> отправил на сервер.
 class EmailAPIView(generics.ListAPIView):
     serializer_class = MountainPassSerializer
+
     def get(self, request, *args, **kwargs):
         email = kwargs.get('email', None)
         if MountainPass.objects.filter(user__email=email):
