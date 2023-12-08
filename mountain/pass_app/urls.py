@@ -4,5 +4,6 @@ from .views import MountainPassViewSet
 
 urlpatterns = [
     path('', MountainPassViewSet.as_view({'get': 'list'}), name='mountain_pass-list'),
-    path('<int:id/', MountainPassViewSet.as_view({'get': 'list'}), name='mountain_detail')
+    # метод as_view({'get': 'list'}) связывает GET-запрос с возвратом клиенту списка записей из модели таблицы БД
+    path('submitData/<int:pk>/', MountainPassViewSet.as_view({'get': 'list'}), name='mountain_detail')
 ]

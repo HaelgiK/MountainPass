@@ -91,7 +91,7 @@ class MountainPassTestCase(APITestCase):
         self.assertEqual(serializer_data, response.json())
     # Проверка получение записи о первом перевале
     def test_mountain_detail(self):
-        url = reverse('mountain_detail', kwargs={'id': self.mountain_pass_1.id})
+        url = reverse('mountain_detail', args=(self.mountain_pass_1.id,))
         response = self.client.get(url)
         serializer_data = MountainPassSerializer(self.mountain_pass_1).data
         self.assertEqual(serializer_data, response.data)
@@ -109,6 +109,12 @@ class MountainPassTestCase(APITestCase):
 class MountainPassSerializerTestCase(TestCase):
     def setUp(self):
         self.mountain_pass_1 = MountainPass.objects.create(
+            id=2,
+            beauty_title="пер.",
+            title="Riffltor",
+            other_titles="433.Альпы",
+            connect="ледн. Karlingerkees - ледн. Pasterzenboden",
+            add_time="2023-11-24T14:33:19.590646Z",
             user=User.objects.create(
                 email="cruzen@example.com",
                 phone="89991234567",
@@ -116,11 +122,6 @@ class MountainPassSerializerTestCase(TestCase):
                 name="Крузенштерн",
                 otc="Федорович"
             ),
-            id=2,
-            beauty_title="пер.",
-            title="Riffltor",
-            other_titles="433.Альпы",
-            connect="ледн. Karlingerkees - ледн. Pasterzenboden",
             coords=Coords.objects.create(
                 latitude=47.12173,
                 longitude=12.68298,
@@ -141,6 +142,12 @@ class MountainPassSerializerTestCase(TestCase):
         )
 
         self.mountain_pass_2 = MountainPass.objects.create(
+            id=3,
+            beauty_title="пер.",
+            title="Brizio",
+            other_titles="433.Альпы",
+            connect="ледн. Karlingerkees - ледн. Pasterzenboden",
+            add_time="2023-11-24T14:46:17.390528Z",
             user=User.objects.create(
                 email="mail@example.com",
                 phone="9991234567",
@@ -148,11 +155,6 @@ class MountainPassSerializerTestCase(TestCase):
                 name="Билли",
                 otc="Торнтон"
             ),
-            id=3,
-            beauty_title="пер.",
-            title="Brizio",
-            other_titles="433.Альпы",
-            connect="ледн. Karlingerkees - ледн. Pasterzenboden",
             coords=Coords.objects.create(
                 latitude=43.6148,
                 longitude=41.10383,
@@ -249,6 +251,6 @@ class MountainPassSerializerTestCase(TestCase):
                 "status": "PN"
             }
         ]
-        # print(expected_data)
-        # print(serializer_data)
+#        print(expected_data)
+#        print(serializer_data)
         self.assertEqual(expected_data, serializer_data)

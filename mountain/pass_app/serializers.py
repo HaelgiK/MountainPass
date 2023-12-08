@@ -89,7 +89,9 @@ class MountainPassSerializer(WritableNestedModelSerializer):
             'coords',
             'level',
             'images',
+            'status',
         ]
+        read_only_fields = ['status']
 
     # Реализация запрета изменять данные пользователя при редактировании данных о перевале
     def validate(self, data):
