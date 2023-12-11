@@ -29,6 +29,44 @@
   GET /submitData/ - получает и выводит информацию о всех записях (перевалах).
   ***
   POST /submitData/ - заявка на внесение информации об одном горном перевале
+  
+  Пример JSON с информацией о перевале
+
+  > {
+            "id": 5,
+            "beauty_title": "пер.",
+            "title": "Riffltor",
+            "other_titles": "433.Альпы",
+            "connect": "ледн. Karlingerkees - ледн. Pasterzenboden",
+            "add_time": "2023-11-30T15:26:32.837387Z",
+            "user": {
+                "email": "user@example.com",
+                "phone": "89998887766",
+                "fam": "Конюхов",
+                "name": "Федор",
+                "otc": "Федорович"
+            },
+            "coords": {
+                "latitude": 47.12173,
+                "longitude": 12.68298,
+                "height": 3100
+            },
+            "level": {
+                "winter": "1b",
+                "summer": "2b",
+                "autumn": "1b",
+                "spring": "1b"
+            },
+            "images": [
+                {
+                    "image": "https://pereval.online/imagecache/original/object/images/2019/11/27/9bf9a5-94493.jpg",
+                    "title": "title"
+                }
+            ],
+            "status": "NW"
+        }
+
+
   > Результат метода: JSON
 
 * status — код HTTP, целое число:
