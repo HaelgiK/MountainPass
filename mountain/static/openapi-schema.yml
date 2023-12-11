@@ -1,0 +1,610 @@
+openapi: 3.0.3
+info:
+  title: MP List API
+  version: 0.0.1
+  description: API documentation for application PASS_APP
+paths:
+  /api/submitData/user__email={email}:
+    get:
+      operationId: api_submitData_user__email=_list
+      parameters:
+      - in: path
+        name: email
+        schema:
+          type: string
+        required: true
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMountainPassList'
+          description: ''
+  /submitData/mountain_pass/:
+    get:
+      operationId: submitData_mountain_pass_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - submitData
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMountainPassList'
+          description: ''
+    post:
+      operationId: submitData_mountain_pass_create
+      tags:
+      - submitData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MountainPassRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MountainPassRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MountainPassRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MountainPass'
+          description: ''
+  /submitData/mountain_pass/{id}/:
+    get:
+      operationId: submitData_mountain_pass_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mountain pass.
+        required: true
+      tags:
+      - submitData
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MountainPass'
+          description: ''
+    put:
+      operationId: submitData_mountain_pass_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mountain pass.
+        required: true
+      tags:
+      - submitData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MountainPassRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MountainPassRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MountainPassRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MountainPass'
+          description: ''
+    patch:
+      operationId: submitData_mountain_pass_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mountain pass.
+        required: true
+      tags:
+      - submitData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMountainPassRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMountainPassRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMountainPassRequest'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MountainPass'
+          description: ''
+    delete:
+      operationId: submitData_mountain_pass_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mountain pass.
+        required: true
+      tags:
+      - submitData
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    AutumnEnum:
+      enum:
+      - 1a
+      - 1b
+      - 2a
+      - 2b
+      - 3a
+      - 3b
+      type: string
+      description: |-
+        * `1a` - 1А
+        * `1b` - 1Б
+        * `2a` - 2А
+        * `2b` - 2Б
+        * `3a` - 3А
+        * `3b` - 3Б
+    BlankEnum:
+      enum:
+      - ''
+    Coords:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+          title: Широта
+        longitude:
+          type: number
+          format: double
+          title: Долгота
+        height:
+          type: integer
+          title: Высота
+      required:
+      - height
+      - latitude
+      - longitude
+    CoordsRequest:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+          title: Широта
+        longitude:
+          type: number
+          format: double
+          title: Долгота
+        height:
+          type: integer
+          title: Высота
+      required:
+      - height
+      - latitude
+      - longitude
+    Image:
+      type: object
+      properties:
+        image:
+          type: string
+          format: uri
+        title:
+          type: string
+          nullable: true
+          title: Название
+          maxLength: 255
+      required:
+      - image
+    ImageRequest:
+      type: object
+      properties:
+        image:
+          type: string
+          format: uri
+          minLength: 1
+        title:
+          type: string
+          nullable: true
+          title: Название
+          maxLength: 255
+      required:
+      - image
+    Level:
+      type: object
+      properties:
+        winter:
+          nullable: true
+          title: Зима
+          oneOf:
+          - $ref: '#/components/schemas/WinterEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        summer:
+          nullable: true
+          title: Лето
+          oneOf:
+          - $ref: '#/components/schemas/SummerEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        autumn:
+          nullable: true
+          title: Осень
+          oneOf:
+          - $ref: '#/components/schemas/AutumnEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        spring:
+          nullable: true
+          title: Весна
+          oneOf:
+          - $ref: '#/components/schemas/SpringEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+    LevelRequest:
+      type: object
+      properties:
+        winter:
+          nullable: true
+          title: Зима
+          oneOf:
+          - $ref: '#/components/schemas/WinterEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        summer:
+          nullable: true
+          title: Лето
+          oneOf:
+          - $ref: '#/components/schemas/SummerEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        autumn:
+          nullable: true
+          title: Осень
+          oneOf:
+          - $ref: '#/components/schemas/AutumnEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        spring:
+          nullable: true
+          title: Весна
+          oneOf:
+          - $ref: '#/components/schemas/SpringEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+    MountainPass:
+      type: object
+      description: Adds nested create feature
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        beauty_title:
+          type: string
+          title: Название топонима
+          maxLength: 255
+        title:
+          type: string
+          nullable: true
+          title: Название
+          maxLength: 255
+        other_titles:
+          type: string
+          nullable: true
+          title: Другое название
+          maxLength: 255
+        connect:
+          type: string
+          nullable: true
+          title: Что связывает
+        add_time:
+          type: string
+          format: date-time
+          readOnly: true
+        user:
+          $ref: '#/components/schemas/User'
+        coords:
+          $ref: '#/components/schemas/Coords'
+        level:
+          allOf:
+          - $ref: '#/components/schemas/Level'
+          nullable: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/Image'
+      required:
+      - add_time
+      - coords
+      - id
+      - images
+      - level
+      - user
+    MountainPassRequest:
+      type: object
+      description: Adds nested create feature
+      properties:
+        beauty_title:
+          type: string
+          minLength: 1
+          title: Название топонима
+          maxLength: 255
+        title:
+          type: string
+          nullable: true
+          title: Название
+          maxLength: 255
+        other_titles:
+          type: string
+          nullable: true
+          title: Другое название
+          maxLength: 255
+        connect:
+          type: string
+          nullable: true
+          title: Что связывает
+        user:
+          $ref: '#/components/schemas/UserRequest'
+        coords:
+          $ref: '#/components/schemas/CoordsRequest'
+        level:
+          allOf:
+          - $ref: '#/components/schemas/LevelRequest'
+          nullable: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageRequest'
+      required:
+      - coords
+      - images
+      - level
+      - user
+    NullEnum:
+      enum:
+      - null
+    PaginatedMountainPassList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MountainPass'
+    PatchedMountainPassRequest:
+      type: object
+      description: Adds nested create feature
+      properties:
+        beauty_title:
+          type: string
+          minLength: 1
+          title: Название топонима
+          maxLength: 255
+        title:
+          type: string
+          nullable: true
+          title: Название
+          maxLength: 255
+        other_titles:
+          type: string
+          nullable: true
+          title: Другое название
+          maxLength: 255
+        connect:
+          type: string
+          nullable: true
+          title: Что связывает
+        user:
+          $ref: '#/components/schemas/UserRequest'
+        coords:
+          $ref: '#/components/schemas/CoordsRequest'
+        level:
+          allOf:
+          - $ref: '#/components/schemas/LevelRequest'
+          nullable: true
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageRequest'
+    SpringEnum:
+      enum:
+      - 1a
+      - 1b
+      - 2a
+      - 2b
+      - 3a
+      - 3b
+      type: string
+      description: |-
+        * `1a` - 1А
+        * `1b` - 1Б
+        * `2a` - 2А
+        * `2b` - 2Б
+        * `3a` - 3А
+        * `3b` - 3Б
+    SummerEnum:
+      enum:
+      - 1a
+      - 1b
+      - 2a
+      - 2b
+      - 3a
+      - 3b
+      type: string
+      description: |-
+        * `1a` - 1А
+        * `1b` - 1Б
+        * `2a` - 2А
+        * `2b` - 2Б
+        * `3a` - 3А
+        * `3b` - 3Б
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          maxLength: 64
+        phone:
+          type: string
+          title: Телефон
+          maxLength: 12
+        fam:
+          type: string
+          title: Фамилия
+          maxLength: 64
+        name:
+          type: string
+          title: Имя
+          maxLength: 64
+        otc:
+          type: string
+          nullable: true
+          title: Отчество
+          maxLength: 64
+      required:
+      - email
+      - fam
+      - name
+      - phone
+    UserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 64
+        phone:
+          type: string
+          minLength: 1
+          title: Телефон
+          maxLength: 12
+        fam:
+          type: string
+          minLength: 1
+          title: Фамилия
+          maxLength: 64
+        name:
+          type: string
+          minLength: 1
+          title: Имя
+          maxLength: 64
+        otc:
+          type: string
+          nullable: true
+          title: Отчество
+          maxLength: 64
+      required:
+      - email
+      - fam
+      - name
+      - phone
+    WinterEnum:
+      enum:
+      - 1a
+      - 1b
+      - 2a
+      - 2b
+      - 3a
+      - 3b
+      type: string
+      description: |-
+        * `1a` - 1А
+        * `1b` - 1Б
+        * `2a` - 2А
+        * `2b` - 2Б
+        * `3a` - 3А
+        * `3b` - 3Б
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

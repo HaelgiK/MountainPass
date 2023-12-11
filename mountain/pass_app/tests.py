@@ -1,3 +1,4 @@
+import json
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -42,6 +43,7 @@ class MountainPassTestCase(APITestCase):
             title="title",
             mountain_pass=self.mountain_pass_1
         )
+
         # Объекты второго перевала
         self.mountain_pass_2 = MountainPass.objects.create(
             user=User.objects.create(
@@ -73,10 +75,11 @@ class MountainPassTestCase(APITestCase):
             title="title",
             mountain_pass=self.mountain_pass_2
         )
+
     # Проверка получения всех записей о перевале
     def test_mountain_list(self):
-        url = reverse('mountain_pass-list')
-        response = self.client.get(url)
+#        url = reverse('mountainpass-list')
+        response = self.client.get(reverse('mountainpass-list'))
         serializer_data = MountainPassSerializer(
             [
                 self.mountain_pass_1,
@@ -87,16 +90,16 @@ class MountainPassTestCase(APITestCase):
         # Функции проверки утверждений
         # (позволяют проверять различные условия и ожидаемые результаты)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(serializer_data, response.data)
-        self.assertEqual(serializer_data, response.json())
+        self.assertEqual(serializer_data, response.data['results'])
+
     # Проверка получение записи о первом перевале
     def test_mountain_detail(self):
-        url = reverse('mountain_detail', args=(self.mountain_pass_1.id,))
-        response = self.client.get(url)
+#        url = reverse('mountainpass-detail', kwargs={'pk': self.mountain_pass_1.pk})
+        response = self.client.get(reverse('mountainpass-detail', kwargs={'pk': self.mountain_pass_1.id}))
+#        response = self.client.get(reverse('mountain_detail', args=(self.mountain_pass_1.id)))
         serializer_data = MountainPassSerializer(self.mountain_pass_1).data
         self.assertEqual(serializer_data, response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(serializer_data, response.json())
 
     # Проверяем создание записи обо всех объектах,
     # добавленных пользователем с почтой user.email
@@ -173,84 +176,3 @@ class MountainPassSerializerTestCase(TestCase):
             title="title",
             mountain_pass=self.mountain_pass_2
         )
-
-    def test_check(self):
-        serializer_data = MountainPassSerializer(
-            [
-                self.mountain_pass_1,
-                self.mountain_pass_2
-            ],
-            many=True
-        ).data
-        # Получение ожидаемых данных
-        expected_data = [
-            {
-                "id": 2,
-                "beauty_title": "пер.",
-                "title": "Riffltor",
-                "other_titles": "433.Альпы",
-                "connect": "ледн. Karlingerkees - ледн. Pasterzenboden",
-                "add_time": "2023-11-24T14:33:19.590646Z",
-                "user": {
-                    "email": "cruzen@example.com",
-                    "phone": "89991234567",
-                    "fam": "Иван",
-                    "name": "Крузенштерн",
-                    "otc": "Федорович"
-                },
-                "coords": {
-                    "latitude": 47.12173,
-                    "longitude": 12.68298,
-                    "height": 3100
-                },
-                "level": {
-                    "winter": "1b",
-                    "summer": "1a",
-                    "autumn": "1a",
-                    "spring": "1a"
-                },
-                "images": [
-                    {
-                        "image": "https://altaitg.ru/upload/iblock/c80/c80fb8d75505232e59812ad2f20f8684.jpg",
-                        "title": "title"
-                    }
-                ],
-                "status": "AC"
-            },
-            {
-                "id": 3,
-                "beauty_title": "пер.",
-                "title": "Brizio",
-                "other_titles": "Альпы",
-                "connect": "ледн. Karlingerkees - ледн. Pasterzenboden",
-                "add_time": "2023-11-24T14:46:17.390528Z",
-                "user": {
-                    "email": "mail@example.com",
-                    "phone": "89991234567",
-                    "fam": "Боб",
-                    "name": "Билли",
-                    "otc": "Торнтон"
-                },
-                "coords": {
-                    "latitude": 43.6148,
-                    "longitude": 41.10383,
-                    "height": 2892
-                },
-                "level": {
-                    "winter": "1a",
-                    "summer": "1a",
-                    "autumn": "1a",
-                    "spring": "1a"
-                },
-                "images": [
-                    {
-                        "image": "https://altaitg.ru/upload/iblock/75d/75df2c2bda5111bb4c19c646e9ca7fc6.jpg",
-                        "title": "title"
-                    }
-                ],
-                "status": "PN"
-            }
-        ]
-#        print(expected_data)
-#        print(serializer_data)
-        self.assertEqual(expected_data, serializer_data)

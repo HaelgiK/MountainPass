@@ -104,7 +104,13 @@ class EmailAPIView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         email = kwargs.get('email', None)
         if MountainPass.objects.filter(user__email=email):
-            data = MountainPassSerializer(MountainPass.objects.filter(user__email=email), many=True).data
+            data = MountainPassSerializer(
+                MountainPass.objects.filter
+                (
+                    user__email=email
+                ),
+                many=True
+            ).data
         else:
             data = {
                 'message': f'Пользователя с такой почтой {email} нет'
